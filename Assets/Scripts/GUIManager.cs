@@ -41,9 +41,14 @@ public class GUIManager : MonoBehaviour
 	private void Update ()
 	{
 		_dlogTimer+=Time.deltaTime;
+		if(_dlogTimer == float.MaxValue - 1f)
+			_dlogTimer = timeToDisplay;
+
 		if(_dialogueQueue.Count > 0 && _dlogTimer > timeToDisplay)
 		{
 			_line = _dialogueQueue.Dequeue();
+			if(_dialogueQueue.Count == 0)
+				GameManager.Instance.LastDialogue = true;
 			_dlogTimer = 0f;
 		}
 	}
@@ -83,6 +88,7 @@ public class GUIManager : MonoBehaviour
 			_dialogueQueue.Enqueue(line);
 			line = "";
 		}
+		GameManager.Instance.LastDialogue = false;
 	}
 
 	private void displayLine(string line)
