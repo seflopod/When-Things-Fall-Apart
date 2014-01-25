@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		_gui = gameObject.GetComponent<GUIManager>();
+		DontDestroyOnLoad(_gui);
 		_titleFade = ((GameObject)GameObject.Find("TitleFade")).GetComponent<GUITexture>();
 		DontDestroyOnLoad(_titleFade);
 		_titleFade.pixelInset = new Rect(-Screen.width/2f, -Screen.height/2f, Screen.width, Screen.height);
@@ -132,13 +133,16 @@ public class GameManager : MonoBehaviour
 				GameObject[] items = GameObject.FindGameObjectsWithTag("item");
 				for(int i=0;i<items.Length;++i)
 					items[i].SetActive(false);
+
+				Debug.Log (items.Length);
 				//Debug.Log("Shuffling items");
-				for(int i=items.Length - 1;i >= 1; ++i)
+				for(int i=items.Length - 1; i > 0; --i)
 				{
-					int j = Random.Range(0, i+1);
+					int j = UnityEngine.Random.Range(0, i+1);
+					Debug.Log(j);
 					GameObject tmp = items[j];
 					items[j] = items[i];
-					items[i] = items[j];
+					items[i] = tmp;
 				}
 				_items = new Queue<GameObject>(items);
 				//Debug.Log(_items.Count);
@@ -236,25 +240,25 @@ public class GameManager : MonoBehaviour
 			GameObject heap = GameObject.FindGameObjectWithTag("objectHeap");
 			Vector3 pos = heap.transform.position;
 			SpriteRenderer heapSpr = heap.GetComponent<SpriteRenderer>();
-			Debug.Log("Checking for pickup...");
-			Debug.Log(_player.TopY + " " + (pos.y+heapSpr.bounds.extents.y));
-			Debug.Log(_player.BottomY + " " + (pos.y-heapSpr.bounds.extents.y));
-			Debug.Log(_player.LeftX + " " + (pos.x-heapSpr.bounds.extents.x));
-			Debug.Log(_player.RightX + " " + (pos.x+heapSpr.bounds.extents.x));
 			if((_player.TopY <= pos.y+heapSpr.bounds.extents.y && _player.BottomY >= pos.y-heapSpr.bounds.extents.y) &&
 			   (_player.LeftX >= pos.x-heapSpr.bounds.extents.x && _player.RightX <= pos.x+heapSpr.bounds.extents.x) &&
-			   _items.Count > 0 && _player.Carrying != null)
+			   _items.Count > 0 && _player.Carrying == null)
 			{
 				Debug.Log("Picking up item");
 				_player.Carrying = _items.Dequeue();
+				_player.Carrying.SetActive(true);
+				_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
+				_player.Carrying.SetActive(false);
 				Debug.Log(_player.Carrying.name);
+
 			}
-			else if(_player.Carrying != null && _player.transform.position.y > 598f)
+			else if(_player.Carrying != null && _player.transform.position.y > -3f)
 			{
 				_player.Score+=(_player.transform.position - _player.CarriedOrigPos).sqrMagnitude;
 				_player.Carrying.SetActive(true);
 				_player.Carrying.transform.position = _player.transform.position;
 				_player.ClearCarry();
+				_gui.DisplayItem();
 				if(_items.Count == 0)
 					Debug.Log ("Game Over? " + "Score: " + Mathf.Round(_player.Score).ToString());
 			}
@@ -269,5 +273,14 @@ public class GameManager : MonoBehaviour
 	#region properties
 	public GamePhase Phase { get { return _phase; } }
 	public bool LastDialogue { get; set; }
+	public SpriteRenderer CurrentItem
+	{
+		get
+		{
+			if(_player == null || _player.Carrying == null)
+				return null;
+			return _player.Carrying.GetComponent<SpriteRenderer>();
+		}
+	}
 	#endregion
 }

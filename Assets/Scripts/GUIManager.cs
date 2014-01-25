@@ -15,6 +15,7 @@ public class GUIManager : MonoBehaviour
 	private Rect _btmBarRect;
 	private Rect _lineRect;
 	private string _line;
+	private GameObject _itmGO;
 	#endregion
 
 	#region monobehaviour
@@ -31,10 +32,10 @@ public class GUIManager : MonoBehaviour
 		_btmBarRect = new Rect(0f, 5/6f*Screen.height, Screen.width, 1/6f*Screen.height);
 
 		_line = "";
-		//left over from testing
-		//also to remind myself what the opening dlog is
-		/*EnqueueText("We're through.");
-		EnqueueText("I'm leaving.");*/
+		_itmGO = new GameObject("ItemDisplay", typeof(SpriteRenderer));
+		_itmGO.transform.position = new Vector3(-7.04f, -3.5f, 0f);
+		_itmGO.GetComponent<SpriteRenderer>().sortingLayerName = "Midground";
+		DontDestroyOnLoad(_itmGO);
 	}
 	
 	// Update is called once per frame
@@ -60,7 +61,6 @@ public class GUIManager : MonoBehaviour
 
 		if(_dlogTimer < timeToDisplay)
 			displayLine(_line);
-
 	}
 	#endregion
 
@@ -99,6 +99,17 @@ public class GUIManager : MonoBehaviour
 		Rect lineRect = new Rect(hMargin, _btmBarRect.y+vMargin, linePx, _btmBarRect.height-vMargin);
 		GUI.DrawTexture(_btmBarRect, bottomBarBG);
 		GUI.Label(lineRect, line, _dlogStyle);
+	}
+
+	public void DisplayItem(SpriteRenderer itmSpr)
+	{
+		_itmGO.GetComponent<SpriteRenderer>().sprite = itmSpr.sprite;
+		_itmGO.GetComponent<SpriteRenderer>().color = itmSpr.color;
+	}
+
+	public void DisplayItem()
+	{
+		_itmGO.GetComponent<SpriteRenderer>().sprite = null;
 	}
 	#endregion
 }
