@@ -68,7 +68,8 @@ public class TitleSpritesBehaviour : MonoBehaviour
 	{
 		for(int i=0;i<_children.Length;++i)
 		{
-			_children[i].rigidbody2D.gravityScale = 0f;
+			//_children[i].rigidbody2D.gravityScale = 0.33f;
+			_children[i].rigidbody2D.gravityScale = 0.0f;
 			_children[i].rigidbody2D.isKinematic = false;
 		}
 
