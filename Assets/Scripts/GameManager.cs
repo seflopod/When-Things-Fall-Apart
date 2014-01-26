@@ -294,9 +294,17 @@ public class GameManager : MonoBehaviour
 			}
 			else if(_player.Carrying != null && _player.transform.position.y > -3f)
 			{
+				float pX = _player.transform.position.x;
+				float pY = _player.transform.position.y;
+				float oX = _player.CarriedOrigPos.x;
+				float oY = _player.CarriedOrigPos.y;
 				int points = 0;
+				float maxY = (oY < (1.73f-1.22f)/2) ? -1.22f : 1.73f;
+				float maxX = (oX < 0) ? -7.7f : 7.7f;
+				float maxSqrMag = ((new Vector3(maxX, maxY, 0f)) - _player.CarriedOrigPos).sqrMagnitude;
 				float sqrMag = (_player.transform.position - _player.CarriedOrigPos).sqrMagnitude;
 
+				Debug.Log (maxSqrMag + " "+ sqrMag);
 				if(sqrMag < 16f)
 					points = 1;
 				else
@@ -310,6 +318,8 @@ public class GameManager : MonoBehaviour
 				}
 
 				_player.Score+=points;
+				//Debug.Log (sqrMag + " is worth " + points + ".  Score is now " + PlayerScore);
+
 				_player.Carrying.SetActive(true);
 				_player.Carrying.transform.position = _player.transform.position;
 				_player.ClearCarry();
