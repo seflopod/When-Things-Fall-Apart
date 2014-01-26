@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public enum GamePhase
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
 	private Transform[] _stairs;
 	private bool _procdInput;
 	private Queue<GameObject> _items;
+	public GameObject[] _stackableObjects;
 
 	private TitleSpritesBehaviour _tsb;
 	#endregion
@@ -238,7 +239,8 @@ public class GameManager : MonoBehaviour
 		float hAxis = Input.GetAxis("Horizontal");
 		bool down = Input.GetKeyDown(KeyCode.DownArrow);
 		bool up = Input.GetKeyDown(KeyCode.UpArrow);
-		bool placePickup = Input.GetButtonDown("Fire1");
+		bool placePickup = Input.GetButtonDown("Fire1");	
+
 		if(hAxis < 0 && _player.LeftX - dt * _player.speed > -_houseSpr.bounds.extents.x)
 			_player.transform.Translate(dt * -_player.speed, 0f, 0f);
 		if(hAxis > 0 && _player.RightX + dt * _player.speed < _houseSpr.bounds.extents.x)
@@ -311,7 +313,22 @@ public class GameManager : MonoBehaviour
 
 				_player.Score+=points;
 				_player.Carrying.SetActive(true);
-				_player.Carrying.transform.position = _player.transform.position;
+
+				_stackableObjects = new GameObject[10];
+				_stackableObjects = FindGameObjectsWithLayer(9);
+
+				if(_stackableObjects != null && _stackableObjects.Length > 0)
+				{
+					foreach(GameObject go in _stackableObjects)
+					{
+						if(_player.Carrying.layer == 8 && go == _player.Carrying)
+							_player.Carrying.transform.position = go.transform.FindChild("stackPosition").transform.position; //add offset based on which story you are in.
+						else
+							_player.Carrying.transform.position = _player.transform.position - _player.renderer.bounds.extents;
+					}
+				}else
+					_player.Carrying.transform.position = _player.transform.position - _player.renderer.bounds.extents;
+
 				_player.ClearCarry();
 				_gui.DisplayItem();
 				if(_items.Count == 0)
@@ -352,4 +369,24 @@ public class GameManager : MonoBehaviour
 
 	public float PlayerScore { get { return (_player != null) ? _player.Score : 0f; } }
 	#endregion
+
+	///Finds GameObjects by layer. Similar to GameObject.FindGameObjectsWithTag.
+	/// Used to find objects in a specific layer.
+	/// 
+	/// EXAMPLE: Add objects in the "ObjectCanBePlacedOn" layer to a list and
+	/// make a check to see if you are colliding with it so you can stack an
+	/// object in the "PlaceOnOtherObject" layer on top of the "ObjectCanBePlacedOn" object.
+	GameObject[] FindGameObjectsWithLayer (int layer) {
+		GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
+		List<GameObject> goList = new List<GameObject>();
+		for (int i = 0; i < goArray.Length; i++) {
+			if (goArray[i].layer == layer) {
+				goList.Add(goArray[i]);
+			}
+		}
+		if (goList.Count == 0) {
+			return null;
+		}
+		return goList.ToArray();
+	}
 }
