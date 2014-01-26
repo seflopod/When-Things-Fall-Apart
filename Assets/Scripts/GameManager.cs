@@ -58,8 +58,6 @@ public class GameManager : MonoBehaviour
 	private Queue<GameObject> _items;
 	public GameObject[] _stackableObjects;
 
-	public bool isColliding;
-
 	private TitleSpritesBehaviour _tsb;
 	#endregion
 
