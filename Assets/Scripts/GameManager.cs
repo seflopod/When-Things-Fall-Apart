@@ -1,3 +1,4 @@
+﻿//Peter
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -43,21 +44,23 @@ public class GameManager : MonoBehaviour
 	#endregion
 
 	#region fields
-	public float titleToMenuDelay = 7f;
-
+	public float titleToMenuDelay = 3f;
+	//public Sprite afterBreakupGlass;
+	//public Sprite emptyHouse;
 	private GamePhase _phase;
 	private GUIManager _gui;
 	private SimpleTimer _timer;
-	private bool _fadeOut;
-	private bool _fadeIn;
 	private GUITexture _titleFade;
 	private SpriteRenderer _houseSpr;
 	private PlayerBehaviour _player;
 	private Transform[] _stairs;
 	private bool _procdInput;
 	private Queue<GameObject> _items;
-	public GameObject[] _stackableObjects;
-
+	private GameObject _shatteredHouse;
+	private AudioPlay _audio;
+	private bool _startedLeaving;
+	private bool _shattered;
+	private GameObject[] _stackableObjects;
 	private TitleSpritesBehaviour _tsb;
 	#endregion
 
@@ -86,20 +89,17 @@ public class GameManager : MonoBehaviour
 		GameObject child = (GameObject)GameObject.Find("TitleSprites");
 		_tsb = child.GetComponent<TitleSpritesBehaviour>();
 		_timer = new SimpleTimer();
-		//Camera.main.backgroundColor = new Color(240/255f, 230/255f, 221/255f);
-		//_tsb.PlaceSprites();
-		//_timer = new SimpleTimer(15f);
-		//_timer.StartTimer();
-		_fadeOut = false;
-		_fadeIn = false;
 		_houseSpr = null;
 		LastDialogue = false;
 		_player = null;
 		_stairs = new Transform[0];
 		_procdInput = false;
 		_items = new Queue<GameObject>();
-
+		_audio = GameObject.FindGameObjectWithTag("audio_mgr").GetComponent<AudioPlay>();
+		DontDestroyOnLoad(_audio);
 		_phase = GamePhase.SetupTitle;
+		_startedLeaving = false;
+		_shattered = false;
 	}
 	#endregion
 
@@ -138,9 +138,9 @@ public class GameManager : MonoBehaviour
 				fadeOut();
 			else
 			{
-				if(!Application.isLoadingLevel && Application.loadedLevelName != "house")
-					Application.LoadLevel("house");
-				if(Application.loadedLevelName == "house" && !Application.isLoadingLevel)
+				if(!Application.isLoadingLevel && Application.loadedLevelName != "breakup")
+					Application.LoadLevel("breakup");
+				if(Application.loadedLevelName == "breakup" && !Application.isLoadingLevel)
 				{
 					_timer.SetTimer(3f);
 					_timer.StartTimer();
@@ -152,43 +152,62 @@ public class GameManager : MonoBehaviour
 		case GamePhase.FadeToCredits:
 			break;
 		case GamePhase.ShowOpeningDlog:
-			if(!_timer.Expired)
+			if(!_timer.Expired && !_startedLeaving)
 				fadeIn ();
 			else
 			{
-				_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
-				//show the breakup
-				_gui.EnqueueText("We're through.");
-				_gui.EnqueueText("I'm leaving");
-				_timer.SetTimer(2.5f); //length of whole breakup, animation + dlog
-				_timer.StartTimer();
-				_phase = GamePhase.ShatterHouse;
+				if(!_startedLeaving)
+				{
+
+					//show the breakup
+					_gui.EnqueueText("We're through.");
+					_gui.EnqueueText("I'm leaving.");
+					_timer.SetTimer(15f); //length of whole breakup, animation + dlog
+					_timer.StartTimer();
+					GameObject.FindGameObjectWithTag("significant_other").GetComponent<SOBehaviour>().LeaveInTime(5f);
+					_startedLeaving = true;
+				}
+				else if(_timer.Expired)
+				{
+					_phase = GamePhase.ShatterHouse;
+					Application.LoadLevel("shatter");
+					_timer.SetTimer(1f);
+					_timer.StartTimer();
+				}
 			}
 			break;
 		case GamePhase.ShatterHouse:
-			if(_timer.Expired)
+			if(!_shattered && _timer.Expired && !Application.isLoadingLevel && Application.loadedLevelName == "shatter")
 			{
-				//animate shattered house
-				_timer.SetTimer(2.5f); //length of animation
+				GameObject[] items = GameObject.FindGameObjectsWithTag("item");
+				for(int i=0;i<items.Length;++i)
+					items[i].SetActive(false);
+
+				//animate shattered house using rigidbodies
+				_timer.SetTimer(3f);
 				_timer.StartTimer();
+				_shattered = true;
+			}
+			if(_shattered && _timer.Expired)
+			{
 				_phase = GamePhase.PlaySetup;
+				Application.LoadLevel("house");
 			}
 			break;
 		case GamePhase.PlaySetup:
-			if(_timer.Expired)
+			if(!Application.isLoadingLevel && Application.loadedLevelName == "house")
 			{
+				_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
 				if(_player == null)
 					_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 				if(_stairs.Length == 0)
 					_stairs = GameObject.FindGameObjectWithTag("stairs").GetComponentsInChildren<Transform>();
 				if(_items.Count == 0)
 				{
-					//Debug.Log("Collecting items");
 					GameObject[] items = GameObject.FindGameObjectsWithTag("item");
 					for(int i=0;i<items.Length;++i)
 						items[i].SetActive(false);
 					
-					//Debug.Log("Shuffling items");
 					for(int i=items.Length - 1; i > 0; --i)
 					{
 						int j = UnityEngine.Random.Range(0, i+1);
@@ -197,8 +216,10 @@ public class GameManager : MonoBehaviour
 						items[i] = tmp;
 					}
 					_items = new Queue<GameObject>(items);
-					_phase = GamePhase.Play;
 				}
+
+				if(_timer.Expired)
+					_phase = GamePhase.Play;
 			}
 			break;
 		case GamePhase.Play:
@@ -208,7 +229,14 @@ public class GameManager : MonoBehaviour
 				_procdInput = false;
 			break;
 		case GamePhase.PlayEnd:
-			Debug.Log ("Game Over? " + "Score: " + Mathf.Round(PlayerScore).ToString());
+			//John Burgar says, "No nested ifs motherfucker!"
+			if(!Application.isLoadingLevel && (Application.loadedLevelName != "end_dance" || Application.loadedLevelName != "end_cry"))
+			{
+				if(PlayerScore < 16)
+					Application.LoadLevel("end_dance");
+				else
+					Application.LoadLevel("end_cry");
+			}
 			break;
 		default:
 			break;
@@ -239,8 +267,8 @@ public class GameManager : MonoBehaviour
 		float hAxis = Input.GetAxis("Horizontal");
 		bool down = Input.GetKeyDown(KeyCode.DownArrow);
 		bool up = Input.GetKeyDown(KeyCode.UpArrow);
-		bool placePickup = Input.GetButtonDown("Fire1");	
-
+		bool placePickup = Input.GetButtonDown("Fire1");
+		
 		if(hAxis < 0 && _player.LeftX - dt * _player.speed > -_houseSpr.bounds.extents.x)
 		{
 			_player.transform.Translate(dt * -_player.speed, 0f, 0f);
@@ -258,7 +286,7 @@ public class GameManager : MonoBehaviour
 			{
 				Vector3 pos = _stairs[i].position;
 				if((_player.TopY >= pos.y && _player.BottomY <= pos.y) &&
-				   (_player.LeftX <= pos.x && _player.RightX >= pos.x))
+				   (_player.LeftX <= pos.x+2f && _player.RightX >= pos.x-2f))
 				{
 					if(up && _stairs[i].gameObject.CompareTag("basement"))
 					{
@@ -302,34 +330,18 @@ public class GameManager : MonoBehaviour
 			}
 			else if(_player.Carrying != null && _player.transform.position.y > -3f)
 			{
-				float pX = _player.transform.position.x;
-				float pY = _player.transform.position.y;
-				float oX = _player.CarriedOrigPos.x;
-				float oY = _player.CarriedOrigPos.y;
-				int points = 0;
-				float maxY = (oY < (1.73f-1.22f)/2) ? -1.22f : 1.73f;
-				float maxX = (oX < 0) ? -7.7f : 7.7f;
-				float maxSqrMag = ((new Vector3(maxX, maxY, 0f)) - _player.CarriedOrigPos).sqrMagnitude;
-				float sqrMag = (_player.transform.position - _player.CarriedOrigPos).sqrMagnitude;
-
-				Debug.Log (maxSqrMag + " "+ sqrMag);
-				if(sqrMag < 16f)
-					points = 1;
-				else
-				{
-					if(sqrMag >= 16f)
-						points++;
-					if(sqrMag >= 64f)
-						points++;
-					if(sqrMag >=144f)
-						points++;
-				}
+				int points = 2;
+				Vector3 oPos = _player.CarriedOrigPos;
+				Vector3 pPos = _player.transform.position;
+				if((oPos.x > 0f) ^ (pPos.x > 0f)) //I can't type the explanation.  Just make a truth table if you're confused
+					points--;
+				if((oPos.y > 0f) ^ (pPos.y > 0f))
+					points--;
 
 				_player.Score+=points;
-				//Debug.Log (sqrMag + " is worth " + points + ".  Score is now " + PlayerScore);
+				_audio.VaryMusic = (_items.Count <= 15); //start to change music after awhile
 
 				_player.Carrying.SetActive(true);
-
 				_stackableObjects = FindGameObjectsWithLayer(9);
 
 				if(_stackableObjects != null && _stackableObjects.Length > 0)
@@ -340,8 +352,6 @@ public class GameManager : MonoBehaviour
 						var goPos = go.transform.position;
 						if((_player.LeftX >= goPos.x-sprRend.bounds.extents.x && _player.RightX <= goPos.x+sprRend.bounds.extents.x))
 						{
-							Debug.Log("is colliding...");
-
 							if(_player.Carrying.layer == 8)
 								_player.Carrying.transform.position = go.transform.FindChild("stackPosition").transform.position; //add offset based on which story you are in.
 							else
@@ -352,9 +362,10 @@ public class GameManager : MonoBehaviour
 							_player.Carrying.transform.position = _player.transform.position - _player.GetComponent<SpriteRenderer>().bounds.extents + 0.1f * Vector3.forward;
 						}
 					}
-				}else
+				}
+				else
 					_player.Carrying.transform.position = _player.transform.position - _player.GetComponent<SpriteRenderer>().bounds.extents + 0.1f * Vector3.forward;
-
+				
 				_player.ClearCarry();
 				_gui.DisplayItem();
 				if(_items.Count == 0)
@@ -365,6 +376,27 @@ public class GameManager : MonoBehaviour
 
 		return (up || down || placePickup);
 
+	}
+	
+	///Finds GameObjects by layer. Similar to GameObject.FindGameObjectsWithTag.
+	/// Used to find objects in a specific layer.
+	/// 
+	/// EXAMPLE: Add objects in the "ObjectCanBePlacedOn" layer to a list and
+	/// make a check to see if you are colliding with it so you can stack an
+	/// object in the "PlaceOnOtherObject" layer on top of the "ObjectCanBePlacedOn" object.
+	private GameObject[] FindGameObjectsWithLayer(int layer)
+	{
+		GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
+		List<GameObject> goList = new List<GameObject>();
+		for (int i = 0; i < goArray.Length; i++) {
+			if (goArray[i].layer == layer) {
+				goList.Add(goArray[i]);
+			}
+		}
+		if (goList.Count == 0) {
+			return null;
+		}
+		return goList.ToArray();
 	}
 	#endregion
 	
@@ -395,24 +427,4 @@ public class GameManager : MonoBehaviour
 
 	public float PlayerScore { get { return (_player != null) ? _player.Score : 0f; } }
 	#endregion
-
-	///Finds GameObjects by layer. Similar to GameObject.FindGameObjectsWithTag.
-	/// Used to find objects in a specific layer.
-	/// 
-	/// EXAMPLE: Add objects in the "ObjectCanBePlacedOn" layer to a list and
-	/// make a check to see if you are colliding with it so you can stack an
-	/// object in the "PlaceOnOtherObject" layer on top of the "ObjectCanBePlacedOn" object.
-	GameObject[] FindGameObjectsWithLayer (int layer) {
-		GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-		List<GameObject> goList = new List<GameObject>();
-		for (int i = 0; i < goArray.Length; i++) {
-			if (goArray[i].layer == layer) {
-				goList.Add(goArray[i]);
-			}
-		}
-		if (goList.Count == 0) {
-			return null;
-		}
-		return goList.ToArray();
-	}
 }
