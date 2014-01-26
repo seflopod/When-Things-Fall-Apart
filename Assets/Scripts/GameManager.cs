@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
 	#region fields
 	public float titleToMenuDelay = 3f;
+	public Sprite heapSprite;
 	//public Sprite afterBreakupGlass;
 	//public Sprite emptyHouse;
 	private GamePhase _phase;
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
 	private AudioPlay _audio;
 	private bool _startedLeaving;
 	private bool _shattered;
-	private GameObject[] _stackableObjects;
+	private List<GameObject> _stackableObjects = new List<GameObject>();
 	private TitleSpritesBehaviour _tsb;
 	#endregion
 
@@ -232,6 +233,8 @@ public class GameManager : MonoBehaviour
 			//John Burgar says, "No nested ifs motherfucker!"
 			if(!Application.isLoadingLevel && (Application.loadedLevelName != "end_dance" || Application.loadedLevelName != "end_cry"))
 			{
+				_stackableObjects.Clear();
+				
 				if(PlayerScore < 16)
 					Application.LoadLevel("end_dance");
 				else
@@ -323,6 +326,9 @@ public class GameManager : MonoBehaviour
 			   _items.Count > 0 && _player.Carrying == null)
 			{
 				_player.Carrying = _items.Dequeue();
+
+				if(_items.Count == 5)
+					heapSpr.sprite = heapSprite;
 				//_player.Carrying.SetActive(true);
 				//_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
 				//_player.Carrying.SetActive(false);
@@ -342,17 +348,23 @@ public class GameManager : MonoBehaviour
 				_audio.VaryMusic = (_items.Count <= 15); //start to change music after awhile
 
 				_player.Carrying.SetActive(true);
-				_stackableObjects = FindGameObjectsWithLayer(9);
 
-				if(_stackableObjects != null && _stackableObjects.Length > 0)
+				if(_stackableObjects == null)
+				{
+					_stackableObjects.Clear();
+					_stackableObjects.AddRange(FindGameObjectsWithLayer(9));
+				}
+
+				if(_stackableObjects != null && _stackableObjects.Count > 0)
 				{
 					foreach(GameObject go in _stackableObjects)
 					{
 						var sprRend = go.GetComponent<SpriteRenderer>();
 						var goPos = go.transform.position;
-						if((_player.LeftX >= goPos.x-sprRend.bounds.extents.x && _player.RightX <= goPos.x+sprRend.bounds.extents.x))
+						if((_player.LeftX >= goPos.x-sprRend.bounds.extents.x && _player.RightX <= goPos.x+sprRend.bounds.extents.x) || 
+						   (_player.BottomY >= goPos.x-sprRend.bounds.extents.x && _player.TopY <= goPos.x+sprRend.bounds.extents.x))
 						{
-							if(_player.Carrying.layer == 8)
+							if(_player.Carrying.layer == 8 && go == _player.Carrying)
 								_player.Carrying.transform.position = go.transform.FindChild("stackPosition").transform.position; //add offset based on which story you are in.
 							else
 								_player.Carrying.transform.position = _player.transform.position - _player.GetComponent<SpriteRenderer>().bounds.extents + 0.1f * Vector3.forward;
