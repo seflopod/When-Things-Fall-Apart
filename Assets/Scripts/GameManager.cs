@@ -242,9 +242,15 @@ public class GameManager : MonoBehaviour
 		bool placePickup = Input.GetButtonDown("Fire1");	
 
 		if(hAxis < 0 && _player.LeftX - dt * _player.speed > -_houseSpr.bounds.extents.x)
+		{
 			_player.transform.Translate(dt * -_player.speed, 0f, 0f);
+			_player.AnimController.SetTrigger("walkLeft");
+		}
 		if(hAxis > 0 && _player.RightX + dt * _player.speed < _houseSpr.bounds.extents.x)
+		{
 			_player.transform.Translate(dt * _player.speed, 0f, 0f);
+			_player.AnimController.SetTrigger("walkRight");
+		}
 
 		if(up || down)
 		{
@@ -289,16 +295,24 @@ public class GameManager : MonoBehaviour
 			   _items.Count > 0 && _player.Carrying == null)
 			{
 				_player.Carrying = _items.Dequeue();
-				_player.Carrying.SetActive(true);
-				_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
-				_player.Carrying.SetActive(false);
+				//_player.Carrying.SetActive(true);
+				//_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
+				//_player.Carrying.SetActive(false);
 
 			}
 			else if(_player.Carrying != null && _player.transform.position.y > -3f)
 			{
+				float pX = _player.transform.position.x;
+				float pY = _player.transform.position.y;
+				float oX = _player.CarriedOrigPos.x;
+				float oY = _player.CarriedOrigPos.y;
 				int points = 0;
+				float maxY = (oY < (1.73f-1.22f)/2) ? -1.22f : 1.73f;
+				float maxX = (oX < 0) ? -7.7f : 7.7f;
+				float maxSqrMag = ((new Vector3(maxX, maxY, 0f)) - _player.CarriedOrigPos).sqrMagnitude;
 				float sqrMag = (_player.transform.position - _player.CarriedOrigPos).sqrMagnitude;
 
+				Debug.Log (maxSqrMag + " "+ sqrMag);
 				if(sqrMag < 16f)
 					points = 1;
 				else
@@ -312,6 +326,8 @@ public class GameManager : MonoBehaviour
 				}
 
 				_player.Score+=points;
+				//Debug.Log (sqrMag + " is worth " + points + ".  Score is now " + PlayerScore);
+
 				_player.Carrying.SetActive(true);
 
 				_stackableObjects = new GameObject[10];

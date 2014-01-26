@@ -1,0 +1,319 @@
+fileFormatVersion: 2
+guid: 15bf32374830d4f408a2c91ada89cb7a
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: -2
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: player_walk01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_walk02
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_walk03
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_walk04
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_walk05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_walk06
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_walk07
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_walk08
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 360
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry02
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry03
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry04
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry06
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry07
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_carry08
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 240
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_dance01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 120
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_dance02
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 120
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_dance03
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 120
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_dance04
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 120
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_dance05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 120
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_dance06
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 120
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_cry01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_cry02
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_cry03
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_cry04
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_cry05
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_cry06
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_cry07
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: player_blank
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 40
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+  spritePackingTag: 
+  userData: 

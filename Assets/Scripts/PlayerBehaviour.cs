@@ -1,12 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Player behaviour.
+/// </summary>
+/// <description>
+/// Animation state machine parameters:
+/// Triggers:
+/// 	walkLeft
+/// 	walkRight
+/// 	startCrying
+/// 	startDancing
+/// Bools:
+/// 	isCarrying
+/// 	isCrying
+/// 	isDancing
+/// </description>
 public class PlayerBehaviour : MonoBehaviour
 {
 	#region fields
 	public float speed = 5f;
 	private SpriteRenderer _spr;
 	private GameObject _carrying;
+	private Animator _anim;
 	#endregion
 
 	#region monobehaviour
@@ -14,7 +30,8 @@ public class PlayerBehaviour : MonoBehaviour
 	private void Start ()
 	{
 		_spr = gameObject.GetComponent<SpriteRenderer>();
-	
+		_anim = gameObject.GetComponent<Animator>();
+		_anim.Play("player_idle");
 	}
 	
 	// Update is called once per frame
@@ -27,7 +44,19 @@ public class PlayerBehaviour : MonoBehaviour
 	#region methods
 	public void ClearCarry()
 	{
+		_carrying.transform.parent = null;
 		_carrying = null;
+		_anim.SetBool("isCarrying", false);
+	}
+
+	private void StartedCrying()
+	{
+		_anim.SetBool("isCrying", true);
+	}
+
+	private void StartedDancing()
+	{
+		_anim.SetBool("isDancing", true);
 	}
 	#endregion
 
@@ -42,10 +71,19 @@ public class PlayerBehaviour : MonoBehaviour
 		set
 		{
 			_carrying = value;
+			_carrying.transform.parent = transform;
+			_carrying.transform.localPosition = Vector3.zero;
+			_carrying.SetActive(true);
 			CarriedOrigPos = _carrying.transform.position;
+			_anim.SetBool("isCarrying", true);
 		}
 	}
 	public Vector3 CarriedOrigPos { get; private set; }
 	public float Score { get; set; }
+	public Animator AnimController
+	{
+		get { return _anim; }
+		set { _anim = value; }
+	}
 	#endregion
 }
