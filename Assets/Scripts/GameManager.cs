@@ -240,9 +240,15 @@ public class GameManager : MonoBehaviour
 		bool up = Input.GetKeyDown(KeyCode.UpArrow);
 		bool placePickup = Input.GetButtonDown("Fire1");
 		if(hAxis < 0 && _player.LeftX - dt * _player.speed > -_houseSpr.bounds.extents.x)
+		{
 			_player.transform.Translate(dt * -_player.speed, 0f, 0f);
+			_player.AnimController.SetTrigger("walkLeft");
+		}
 		if(hAxis > 0 && _player.RightX + dt * _player.speed < _houseSpr.bounds.extents.x)
+		{
 			_player.transform.Translate(dt * _player.speed, 0f, 0f);
+			_player.AnimController.SetTrigger("walkRight");
+		}
 
 		if(up || down)
 		{
@@ -287,9 +293,9 @@ public class GameManager : MonoBehaviour
 			   _items.Count > 0 && _player.Carrying == null)
 			{
 				_player.Carrying = _items.Dequeue();
-				_player.Carrying.SetActive(true);
-				_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
-				_player.Carrying.SetActive(false);
+				//_player.Carrying.SetActive(true);
+				//_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
+				//_player.Carrying.SetActive(false);
 
 			}
 			else if(_player.Carrying != null && _player.transform.position.y > -3f)

@@ -1,6 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Player behaviour.
+/// </summary>
+/// <description>
+/// Animation state machine parameters:
+/// Triggers:
+/// 	walkLeft
+/// 	walkRight
+/// 	startCrying
+/// 	startDancing
+/// Bools:
+/// 	isCarrying
+/// 	isCrying
+/// 	isDancing
+/// </description>
 public class PlayerBehaviour : MonoBehaviour
 {
 	#region fields
@@ -29,7 +44,9 @@ public class PlayerBehaviour : MonoBehaviour
 	#region methods
 	public void ClearCarry()
 	{
+		_carrying.transform.parent = null;
 		_carrying = null;
+		_anim.SetBool("isCarrying", false);
 	}
 
 	private void StartedCrying()
@@ -54,7 +71,11 @@ public class PlayerBehaviour : MonoBehaviour
 		set
 		{
 			_carrying = value;
+			_carrying.transform.parent = transform;
+			_carrying.transform.localPosition = Vector3.zero;
+			_carrying.SetActive(true);
 			CarriedOrigPos = _carrying.transform.position;
+			_anim.SetBool("isCarrying", true);
 		}
 	}
 	public Vector3 CarriedOrigPos { get; private set; }
