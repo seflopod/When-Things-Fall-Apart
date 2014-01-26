@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
 			{
 				if(!_startedLeaving)
 				{
-					_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
+
 					//show the breakup
 					_gui.EnqueueText("We're through.");
 					_gui.EnqueueText("I'm leaving.");
@@ -197,18 +197,17 @@ public class GameManager : MonoBehaviour
 		case GamePhase.PlaySetup:
 			if(!Application.isLoadingLevel && Application.loadedLevelName == "house")
 			{
+				_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
 				if(_player == null)
 					_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 				if(_stairs.Length == 0)
 					_stairs = GameObject.FindGameObjectWithTag("stairs").GetComponentsInChildren<Transform>();
 				if(_items.Count == 0)
 				{
-					//Debug.Log("Collecting items");
 					GameObject[] items = GameObject.FindGameObjectsWithTag("item");
 					for(int i=0;i<items.Length;++i)
 						items[i].SetActive(false);
 					
-					//Debug.Log("Shuffling items");
 					for(int i=items.Length - 1; i > 0; --i)
 					{
 						int j = UnityEngine.Random.Range(0, i+1);
@@ -280,7 +279,7 @@ public class GameManager : MonoBehaviour
 			{
 				Vector3 pos = _stairs[i].position;
 				if((_player.TopY >= pos.y && _player.BottomY <= pos.y) &&
-				   (_player.LeftX <= pos.x-2f && _player.RightX >= pos.x+2f))
+				   (_player.LeftX <= pos.x+2f && _player.RightX >= pos.x-2f))
 				{
 					if(up && _stairs[i].gameObject.CompareTag("basement"))
 					{
@@ -333,8 +332,6 @@ public class GameManager : MonoBehaviour
 				float maxX = (oX < 0) ? -7.7f : 7.7f;
 				float maxSqrMag = ((new Vector3(maxX, maxY, 0f)) - _player.CarriedOrigPos).sqrMagnitude;
 				float sqrMag = (_player.transform.position - _player.CarriedOrigPos).sqrMagnitude;
-
-				Debug.Log (maxSqrMag + " "+ sqrMag);
 				if(sqrMag < 16f)
 					points = 1;
 				else
@@ -348,7 +345,6 @@ public class GameManager : MonoBehaviour
 				}
 
 				_player.Score+=points;
-				//Debug.Log (sqrMag + " is worth " + points + ".  Score is now " + PlayerScore);
 
 				_player.Carrying.SetActive(true);
 				_stackableObjects = FindGameObjectsWithLayer(9);
@@ -361,8 +357,6 @@ public class GameManager : MonoBehaviour
 						var goPos = go.transform.position;
 						if((_player.LeftX >= goPos.x-sprRend.bounds.extents.x && _player.RightX <= goPos.x+sprRend.bounds.extents.x))
 						{
-							Debug.Log("is colliding...");
-
 							if(_player.Carrying.layer == 8)
 								_player.Carrying.transform.position = go.transform.FindChild("stackPosition").transform.position; //add offset based on which story you are in.
 							else
@@ -438,24 +432,4 @@ public class GameManager : MonoBehaviour
 
 	public float PlayerScore { get { return (_player != null) ? _player.Score : 0f; } }
 	#endregion
-
-	///Finds GameObjects by layer. Similar to GameObject.FindGameObjectsWithTag.
-	/// Used to find objects in a specific layer.
-	/// 
-	/// EXAMPLE: Add objects in the "ObjectCanBePlacedOn" layer to a list and
-	/// make a check to see if you are colliding with it so you can stack an
-	/// object in the "PlaceOnOtherObject" layer on top of the "ObjectCanBePlacedOn" object.
-	GameObject[] FindGameObjectsWithLayer (int layer) {
-		GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-		List<GameObject> goList = new List<GameObject>();
-		for (int i = 0; i < goArray.Length; i++) {
-			if (goArray[i].layer == layer) {
-				goList.Add(goArray[i]);
-			}
-		}
-		if (goList.Count == 0) {
-			return null;
-		}
-		return goList.ToArray();
-	}
 }

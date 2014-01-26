@@ -48,7 +48,6 @@ public class TitleSpritesBehaviour : MonoBehaviour
 
 	public void DropSprites()
 	{
-		Debug.Log("Dropping sprites");
 		for(int i=0;i<_children.Length;++i)
 		{
 			//_children[i].rigidbody2D.gravityScale = 0.33f;
