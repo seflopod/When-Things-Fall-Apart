@@ -438,4 +438,24 @@ public class GameManager : MonoBehaviour
 
 	public float PlayerScore { get { return (_player != null) ? _player.Score : 0f; } }
 	#endregion
+
+	///Finds GameObjects by layer. Similar to GameObject.FindGameObjectsWithTag.
+	/// Used to find objects in a specific layer.
+	/// 
+	/// EXAMPLE: Add objects in the "ObjectCanBePlacedOn" layer to a list and
+	/// make a check to see if you are colliding with it so you can stack an
+	/// object in the "PlaceOnOtherObject" layer on top of the "ObjectCanBePlacedOn" object.
+	GameObject[] FindGameObjectsWithLayer (int layer) {
+		GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
+		List<GameObject> goList = new List<GameObject>();
+		for (int i = 0; i < goArray.Length; i++) {
+			if (goArray[i].layer == layer) {
+				goList.Add(goArray[i]);
+			}
+		}
+		if (goList.Count == 0) {
+			return null;
+		}
+		return goList.ToArray();
+	}
 }
