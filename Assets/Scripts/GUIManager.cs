@@ -18,7 +18,8 @@ public class GUIManager : MonoBehaviour
 	private Rect _lineRect;
 	private string _line;
 	private GameObject _itmGO;
-	private Rect _menuRect;
+	private bool _showCredits;
+	public Texture _credits;
 	#endregion
 
 	#region monobehaviour
@@ -41,7 +42,7 @@ public class GUIManager : MonoBehaviour
 		_itmGO.GetComponent<SpriteRenderer>().sortingLayerName = "Midground";
 		DontDestroyOnLoad(_itmGO);
 		ShowMenu = false;
-		_menuRect = new Rect(871/1600f*Screen.width, 609/900f*Screen.height, 295/1600f*Screen.width, 200f/900f*Screen.height);
+		_showCredits = false;
 	}
 	
 	// Update is called once per frame
@@ -58,6 +59,7 @@ public class GUIManager : MonoBehaviour
 				GameManager.Instance.LastDialogue = true;
 			_dlogTimer = 0f;
 		}
+
 	}
 
 	private void OnGUI()
@@ -65,11 +67,29 @@ public class GUIManager : MonoBehaviour
 		if(GUI.skin != skin)
 			GUI.skin = skin;
 
-		if(_dlogTimer < timeToDisplay)
-			displayLine(_line);
+		if(_showCredits)
+		{
+			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),_credits);
+			Vector2 wh = _menuStyle.CalcSize(new GUIContent("Menu"));
 
-		if(ShowMenu)
-			displayMenu();
+			if(GUI.Button(new Rect(1f,Screen.height - wh.y,wh.x, wh.y), "Menu", _menuStyle))
+				_showCredits = false;
+		}
+		else
+		{
+			if(_dlogTimer < timeToDisplay)
+				displayLine(_line);
+
+			if(ShowMenu)
+				displayMenu();
+
+			if(Application.loadedLevelName == "end_cry" || Application.loadedLevelName == "end_dance")
+			{
+				Vector2 wh = _menuStyle.CalcSize(new GUIContent("Menu"));
+				if(GUI.Button(new Rect(1f,Screen.height - wh.y,wh.x, wh.y), "Menu", _menuStyle))
+					GameManager.Instance.Phase = GamePhase.SetupTitle;
+			}
+		}
 
 	}
 	#endregion
@@ -139,9 +159,11 @@ public class GUIManager : MonoBehaviour
 		}
 		if(credits)
 		{
-			GameManager.Instance.Phase = GamePhase.FadeToCredits;
+			_showCredits = true;
+			//HAHAHA  Do this when there's time
+			/*GameManager.Instance.Phase = GamePhase.FadeToCredits;
 			GameManager.Instance.Timer.SetTimer(3f);
-			GameManager.Instance.Timer.StartTimer();
+			GameManager.Instance.Timer.StartTimer();*/
 		}
 		if(quit)
 			GameManager.Instance.Phase = GamePhase.EndGame;

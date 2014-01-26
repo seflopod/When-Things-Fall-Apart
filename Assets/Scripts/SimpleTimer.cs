@@ -14,7 +14,6 @@ public class SimpleTimer
 	#region fields
 	private float _startTime;
 	private float _timerLength;
-	private bool _stopped;
 	#endregion
 
 	#region ctors
@@ -24,7 +23,6 @@ public class SimpleTimer
 	public SimpleTimer()
 	{
 		_timerLength = 0.0f;
-		_stopped = true;
 	}
 	
 	/// <summary>
@@ -36,7 +34,6 @@ public class SimpleTimer
 	public SimpleTimer(float length)
 	{
 		SetTimer(length);
-		_stopped = true;
 	}
 	#endregion
 
@@ -58,12 +55,6 @@ public class SimpleTimer
 	public void StartTimer()
 	{
 		_startTime = Time.time;
-		_stopped = false;
-	}
-
-	public void StopTimer()
-	{
-		_stopped = true;
 	}
 	#endregion
 

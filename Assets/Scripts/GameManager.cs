@@ -83,10 +83,15 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		_gui = gameObject.GetComponent<GUIManager>();
-		DontDestroyOnLoad(_gui);
 		_titleFade = ((GameObject)GameObject.Find("TitleFade")).GetComponent<GUITexture>();
+		_audio = GameObject.FindGameObjectWithTag("audio_mgr").GetComponent<AudioPlay>();
+		DontDestroyOnLoad(gameObject);
+		DontDestroyOnLoad(_gui);
 		DontDestroyOnLoad(_titleFade);
+		DontDestroyOnLoad(_audio);
+
 		_titleFade.pixelInset = new Rect(-Screen.width/2f, -Screen.height/2f, Screen.width, Screen.height);
+
 		GameObject child = (GameObject)GameObject.Find("TitleSprites");
 		_tsb = child.GetComponent<TitleSpritesBehaviour>();
 		_timer = new SimpleTimer();
@@ -96,8 +101,6 @@ public class GameManager : MonoBehaviour
 		_stairs = new Transform[0];
 		_procdInput = false;
 		_items = new Queue<GameObject>();
-		_audio = GameObject.FindGameObjectWithTag("audio_mgr").GetComponent<AudioPlay>();
-		DontDestroyOnLoad(_audio);
 		
 		_phase = GamePhase.SetupTitle;
 		_startedLeaving = false;
@@ -116,6 +119,8 @@ public class GameManager : MonoBehaviour
 			else
 			{
 				Camera.main.backgroundColor = new Color(240/255f, 230/255f, 221/255f);
+				_audio.Reset();
+				_tsb.ResetChildren();
 				_tsb.PlaceSprites();
 				_timer.SetTimer(titleToMenuDelay);
 				_timer.StartTimer();
@@ -221,7 +226,13 @@ public class GameManager : MonoBehaviour
 				}
 
 				if(_timer.Expired)
+				{
+					_gui.EnqueueText("Put your life back together.");
+					_gui.EnqueueText("Use arrow keys to move left/right or go up/down stairs.");
+					_gui.EnqueueText("Use left ctrl key to pickup objects from your life pile.");
+					_gui.EnqueueText("Use left ctrl key to place objects in your house.");
 					_phase = GamePhase.Play;
+				}
 			}
 			break;
 		case GamePhase.Play:
@@ -232,15 +243,31 @@ public class GameManager : MonoBehaviour
 			break;
 		case GamePhase.PlayEnd:
 			//John Burgar says, "No nested ifs motherfucker!"
-			if(!Application.isLoadingLevel && (Application.loadedLevelName != "end_dance" || Application.loadedLevelName != "end_cry"))
+			if(!Application.isLoadingLevel && (Application.loadedLevelName != "end_dance" && Application.loadedLevelName != "end_cry"))
 			{
 				_stackableObjects.Clear();
 				
-				if(PlayerScore < 16)
+				//if(PlayerScore < 16)
+				if(PlayerScore < 8)
 					Application.LoadLevel("end_dance");
 				else
 					Application.LoadLevel("end_cry");
 			}
+			if(!Application.isLoadingLevel && (Application.loadedLevelName == "end_dance" || Application.loadedLevelName == "end_cry"))
+			{
+				if(Application.loadedLevelName == "end_dance")
+					GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("startDancing");
+				else
+					GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("startCrying");
+
+				_timer.SetTimer(15f);
+				_timer.StartTimer();
+			}
+			if(_timer.Expired && !Application.isLoadingLevel && (Application.loadedLevelName == "end_dance" || Application.loadedLevelName == "end_cry"))
+			   _phase = GamePhase.SetupTitle;
+			break;
+		case GamePhase.EndGame:
+			Application.Quit();
 			break;
 		default:
 			break;
@@ -350,10 +377,10 @@ public class GameManager : MonoBehaviour
 
 				_player.Carrying.SetActive(true);
 
+				//_stackableObjects = FindGameObjectsWithLayer(9);
 				if(_stackableObjects == null || _stackableObjects.Count == 0)
 				{
-					_stackableObjects = new List<GameObject>();
-					_stackableObjects.AddRange(FindGameObjectsWithLayer(9));
+					_stackableObjects = FindGameObjectsWithLayer(9);
 				}
 
 				if(_stackableObjects != null && _stackableObjects.Count > 0)
@@ -397,7 +424,7 @@ public class GameManager : MonoBehaviour
 	/// EXAMPLE: Add objects in the "ObjectCanBePlacedOn" layer to a list and
 	/// make a check to see if you are colliding with it so you can stack an
 	/// object in the "PlaceOnOtherObject" layer on top of the "ObjectCanBePlacedOn" object.
-	private GameObject[] FindGameObjectsWithLayer(int layer)
+	private List<GameObject> FindGameObjectsWithLayer(int layer)
 	{
 		GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
 		List<GameObject> goList = new List<GameObject>();
@@ -409,7 +436,7 @@ public class GameManager : MonoBehaviour
 		if (goList.Count == 0) {
 			return null;
 		}
-		return goList.ToArray();
+		return goList;
 	}
 	#endregion
 	

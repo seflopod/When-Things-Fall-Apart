@@ -14,16 +14,23 @@ public class TitleSpritesBehaviour : MonoBehaviour
 	#region monobehaviour
 	private void Start()
 	{
-		_children = new GameObject[titleSprites.Length];
-		for(int i=0;i<_children.Length;++i)
-			_children[i] = new GameObject();
+
 	}
 	#endregion
 
 	#region methods
+	public void ResetChildren()
+	{
+		_children = new GameObject[titleSprites.Length];
+		for(int i=0;i<_children.Length;++i)
+		{
+			_children[i] = new GameObject();
+			DontDestroyOnLoad(_children[i]);
+		}
+	}
+
 	public void PlaceSprites()
 	{
-		float zPos = Mathf.Abs(Camera.main.transform.position.z);
 		for(int i=0;i<titleSprites.Length;++i)
 		{
 			TitleSpriteData spr = titleSprites[i];
