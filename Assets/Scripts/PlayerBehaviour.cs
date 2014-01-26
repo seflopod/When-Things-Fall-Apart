@@ -76,6 +76,7 @@ public class PlayerBehaviour : MonoBehaviour
 			_carrying.SetActive(true);
 			CarriedOrigPos = _carrying.transform.position;
 			_anim.SetBool("isCarrying", true);
+			Debug.Log(_carrying.transform.position);
 		}
 	}
 	public Vector3 CarriedOrigPos { get; private set; }
