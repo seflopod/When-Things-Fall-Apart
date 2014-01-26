@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
 		_items = new Queue<GameObject>();
 		_audio = GameObject.FindGameObjectWithTag("audio_mgr").GetComponent<AudioPlay>();
 		DontDestroyOnLoad(_audio);
+		
 		_phase = GamePhase.SetupTitle;
 		_startedLeaving = false;
 		_shattered = false;
@@ -349,9 +350,9 @@ public class GameManager : MonoBehaviour
 
 				_player.Carrying.SetActive(true);
 
-				if(_stackableObjects == null)
+				if(_stackableObjects == null || _stackableObjects.Count == 0)
 				{
-					_stackableObjects.Clear();
+					_stackableObjects = new List<GameObject>();
 					_stackableObjects.AddRange(FindGameObjectsWithLayer(9));
 				}
 
