@@ -44,18 +44,21 @@ public class GameManager : MonoBehaviour
 
 	#region fields
 	public float titleToMenuDelay = 7f;
-
+	public Sprite afterBreakupGlass;
+	public Sprite emptyHouse;
 	private GamePhase _phase;
 	private GUIManager _gui;
 	private SimpleTimer _timer;
-	private bool _fadeOut;
-	private bool _fadeIn;
 	private GUITexture _titleFade;
 	private SpriteRenderer _houseSpr;
 	private PlayerBehaviour _player;
 	private Transform[] _stairs;
 	private bool _procdInput;
 	private Queue<GameObject> _items;
+	private GameObject _shatteredHouse;
+	private AudioPlay _audio;
+	private bool _startedLeaving;
+	private bool _shattered;
 
 	private TitleSpritesBehaviour _tsb;
 	#endregion
@@ -85,20 +88,17 @@ public class GameManager : MonoBehaviour
 		GameObject child = (GameObject)GameObject.Find("TitleSprites");
 		_tsb = child.GetComponent<TitleSpritesBehaviour>();
 		_timer = new SimpleTimer();
-		//Camera.main.backgroundColor = new Color(240/255f, 230/255f, 221/255f);
-		//_tsb.PlaceSprites();
-		//_timer = new SimpleTimer(15f);
-		//_timer.StartTimer();
-		_fadeOut = false;
-		_fadeIn = false;
 		_houseSpr = null;
 		LastDialogue = false;
 		_player = null;
 		_stairs = new Transform[0];
 		_procdInput = false;
 		_items = new Queue<GameObject>();
-
+		_audio = GameObject.FindGameObjectWithTag("audio_mgr").GetComponent<AudioPlay>();
+		DontDestroyOnLoad(_audio);
 		_phase = GamePhase.SetupTitle;
+		_startedLeaving = false;
+		_shattered = false;
 	}
 	#endregion
 
@@ -137,9 +137,9 @@ public class GameManager : MonoBehaviour
 				fadeOut();
 			else
 			{
-				if(!Application.isLoadingLevel && Application.loadedLevelName != "house")
-					Application.LoadLevel("house");
-				if(Application.loadedLevelName == "house" && !Application.isLoadingLevel)
+				if(!Application.isLoadingLevel && Application.loadedLevelName != "breakup")
+					Application.LoadLevel("breakup");
+				if(Application.loadedLevelName == "breakup" && !Application.isLoadingLevel)
 				{
 					_timer.SetTimer(3f);
 					_timer.StartTimer();
@@ -151,30 +151,50 @@ public class GameManager : MonoBehaviour
 		case GamePhase.FadeToCredits:
 			break;
 		case GamePhase.ShowOpeningDlog:
-			if(!_timer.Expired)
+			if(!_timer.Expired && !_startedLeaving)
 				fadeIn ();
 			else
 			{
-				_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
-				//show the breakup
-				_gui.EnqueueText("We're through.");
-				_gui.EnqueueText("I'm leaving");
-				_timer.SetTimer(2.5f); //length of whole breakup, animation + dlog
-				_timer.StartTimer();
-				_phase = GamePhase.ShatterHouse;
+				if(!_startedLeaving)
+				{
+					_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
+					//show the breakup
+					_gui.EnqueueText("We're through.");
+					_gui.EnqueueText("I'm leaving.");
+					_timer.SetTimer(15f); //length of whole breakup, animation + dlog
+					_timer.StartTimer();
+					GameObject.FindGameObjectWithTag("significant_other").GetComponent<SOBehaviour>().LeaveInTime(5f);
+					_startedLeaving = true;
+				}
+				else if(_timer.Expired)
+				{
+					_phase = GamePhase.ShatterHouse;
+					Application.LoadLevel("shatter");
+					_timer.SetTimer(1f);
+					_timer.StartTimer();
+				}
 			}
 			break;
 		case GamePhase.ShatterHouse:
-			if(_timer.Expired)
+			if(!_shattered && _timer.Expired && !Application.isLoadingLevel && Application.loadedLevelName == "shatter")
 			{
-				//animate shattered house
-				_timer.SetTimer(2.5f); //length of animation
+				GameObject[] items = GameObject.FindGameObjectsWithTag("item");
+				for(int i=0;i<items.Length;++i)
+					items[i].SetActive(false);
+
+				//animate shattered house using rigidbodies
+				_timer.SetTimer(3f);
 				_timer.StartTimer();
+				_shattered = true;
+			}
+			if(_shattered && _timer.Expired)
+			{
 				_phase = GamePhase.PlaySetup;
+				Application.LoadLevel("house");
 			}
 			break;
 		case GamePhase.PlaySetup:
-			if(_timer.Expired)
+			if(!Application.isLoadingLevel && Application.loadedLevelName == "house")
 			{
 				if(_player == null)
 					_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
@@ -196,8 +216,10 @@ public class GameManager : MonoBehaviour
 						items[i] = tmp;
 					}
 					_items = new Queue<GameObject>(items);
-					_phase = GamePhase.Play;
 				}
+
+				if(_timer.Expired)
+					_phase = GamePhase.Play;
 			}
 			break;
 		case GamePhase.Play:
