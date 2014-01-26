@@ -7,6 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
 	public float speed = 5f;
 	private SpriteRenderer _spr;
 	private GameObject _carrying;
+	private Animator _anim;
 	#endregion
 
 	#region monobehaviour
@@ -14,7 +15,8 @@ public class PlayerBehaviour : MonoBehaviour
 	private void Start ()
 	{
 		_spr = gameObject.GetComponent<SpriteRenderer>();
-	
+		_anim = gameObject.GetComponent<Animator>();
+		_anim.Play("player_idle");
 	}
 	
 	// Update is called once per frame
@@ -28,6 +30,16 @@ public class PlayerBehaviour : MonoBehaviour
 	public void ClearCarry()
 	{
 		_carrying = null;
+	}
+
+	private void StartedCrying()
+	{
+		_anim.SetBool("isCrying", true);
+	}
+
+	private void StartedDancing()
+	{
+		_anim.SetBool("isDancing", true);
 	}
 	#endregion
 
@@ -47,5 +59,10 @@ public class PlayerBehaviour : MonoBehaviour
 	}
 	public Vector3 CarriedOrigPos { get; private set; }
 	public float Score { get; set; }
+	public Animator AnimController
+	{
+		get { return _anim; }
+		set { _anim = value; }
+	}
 	#endregion
 }
