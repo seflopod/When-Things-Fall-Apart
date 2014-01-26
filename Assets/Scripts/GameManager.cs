@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
 	private Queue<GameObject> _items;
 	public GameObject[] _stackableObjects;
 
+	public bool isColliding;
+
 	private TitleSpritesBehaviour _tsb;
 	#endregion
 
@@ -330,20 +332,30 @@ public class GameManager : MonoBehaviour
 
 				_player.Carrying.SetActive(true);
 
-				_stackableObjects = new GameObject[10];
 				_stackableObjects = FindGameObjectsWithLayer(9);
 
 				if(_stackableObjects != null && _stackableObjects.Length > 0)
 				{
 					foreach(GameObject go in _stackableObjects)
 					{
-						if(_player.Carrying.layer == 8 && go == _player.Carrying)
-							_player.Carrying.transform.position = go.transform.FindChild("stackPosition").transform.position; //add offset based on which story you are in.
+						var sprRend = go.GetComponent<SpriteRenderer>();
+						var goPos = go.transform.position;
+						if((_player.LeftX >= goPos.x-sprRend.bounds.extents.x && _player.RightX <= goPos.x+sprRend.bounds.extents.x))
+						{
+							Debug.Log("is colliding...");
+
+							if(_player.Carrying.layer == 8)
+								_player.Carrying.transform.position = go.transform.FindChild("stackPosition").transform.position; //add offset based on which story you are in.
+							else
+								_player.Carrying.transform.position = _player.transform.position - _player.GetComponent<SpriteRenderer>().bounds.extents + 0.1f * Vector3.forward;
+						}
 						else
-							_player.Carrying.transform.position = _player.transform.position - _player.renderer.bounds.extents;
+						{
+							_player.Carrying.transform.position = _player.transform.position - _player.GetComponent<SpriteRenderer>().bounds.extents + 0.1f * Vector3.forward;
+						}
 					}
 				}else
-					_player.Carrying.transform.position = _player.transform.position - _player.renderer.bounds.extents;
+					_player.Carrying.transform.position = _player.transform.position - _player.GetComponent<SpriteRenderer>().bounds.extents + 0.1f * Vector3.forward;
 
 				_player.ClearCarry();
 				_gui.DisplayItem();
