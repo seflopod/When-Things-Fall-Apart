@@ -17,23 +17,29 @@ public class AudioPlay : MonoBehaviour {
 		public AudioClip[] audioClipsC_S1;
 		public AudioClip[] audioClipsC_S2;
 		public AudioClip[] audioClipsC_S3;
-	
-	void Update () {
 
-		//if(/*GameManager.score <=100*/){
-			PlaySetOne();
-		//}
-
-		//if(/*GameManager.score >100 && <= 200 */){
-			//PlaySetTwo();
-		//}
-	
-		//if(/*GameManager.score >200*/){
-			//PlaySetThree();
-		//}
+	private void Start()
+	{
+		VaryMusic = false;
 	}
 
-	void PlaySetOne(){
+	private void Update ()
+	{
+		if(GameManager.Instance.PlayerScore >= 28 || !VaryMusic)
+		{
+			PlaySetOne();
+		}
+		else if(GameManager.Instance.PlayerScore >= 16)
+		{
+			PlaySetTwo();
+		}
+		else
+		{
+			PlaySetThree();
+		}
+	}
+
+	private void PlaySetOne(){
 		if(audioGameObjects[0].audio.isPlaying==false){
 			int rand = Random.Range(0,2);
 			audioGameObjects[0].audio.clip = audioClipsA_S1[rand];
@@ -50,7 +56,8 @@ public class AudioPlay : MonoBehaviour {
 			audioGameObjects[2].audio.Play();
 		}
 	}
-	void PlaySetTwo(){
+
+	private void PlaySetTwo(){
 		if(audioGameObjects[0].audio.isPlaying==false){
 			int rand = Random.Range(0,2);
 			audioGameObjects[0].audio.clip = audioClipsA_S2[rand];
@@ -67,7 +74,8 @@ public class AudioPlay : MonoBehaviour {
 			audioGameObjects[2].audio.Play();
 		}
 	}
-	void PlaySetThree(){
+
+	private void PlaySetThree(){
 		if(audioGameObjects[0].audio.isPlaying==false){
 			int rand = Random.Range(0,2);
 			audioGameObjects[0].audio.clip = audioClipsA_S3[rand];
@@ -84,5 +92,7 @@ public class AudioPlay : MonoBehaviour {
 			audioGameObjects[2].audio.Play();
 		}
 	}
+
+	public bool VaryMusic { get; set; }
 
 }
