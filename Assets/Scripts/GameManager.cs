@@ -6,7 +6,22 @@ public enum GamePhase
 	Title,
 	Opening,
 	Play,
-	Ending
+	Ending,
+	SetupTitle,
+	ShowTitle,
+	ShowMenu,
+	FadeOutTitle,
+	ShowOpeningDlog,
+	ShowWalkout,
+	ShatterHouse,
+	PlaySetup,
+	PlayEnd,
+	ShowHappyEnd,
+	ShowSadEnd,
+	ShowCredits,
+	EndGame,
+	FadeToGame,
+	FadeToCredits
 };
 
 [RequireComponent(typeof(GUIManager))]
@@ -28,6 +43,8 @@ public class GameManager : MonoBehaviour
 	#endregion
 
 	#region fields
+	public float titleToMenuDelay = 7f;
+
 	private GamePhase _phase;
 	private GUIManager _gui;
 	private SimpleTimer _timer;
@@ -39,6 +56,8 @@ public class GameManager : MonoBehaviour
 	private Transform[] _stairs;
 	private bool _procdInput;
 	private Queue<GameObject> _items;
+
+	private TitleSpritesBehaviour _tsb;
 	#endregion
 
 	#region monobehaviour
@@ -63,13 +82,13 @@ public class GameManager : MonoBehaviour
 		_titleFade = ((GameObject)GameObject.Find("TitleFade")).GetComponent<GUITexture>();
 		DontDestroyOnLoad(_titleFade);
 		_titleFade.pixelInset = new Rect(-Screen.width/2f, -Screen.height/2f, Screen.width, Screen.height);
-		_phase = GamePhase.Title;
 		GameObject child = (GameObject)GameObject.Find("TitleSprites");
-		TitleSpritesBehaviour tsb = child.GetComponent<TitleSpritesBehaviour>();
-		Camera.main.backgroundColor = new Color(240/255f, 230/255f, 221/255f);
-		tsb.PlaceSprites();
-		_timer = new SimpleTimer(15f);
-		_timer.StartTimer();
+		_tsb = child.GetComponent<TitleSpritesBehaviour>();
+		_timer = new SimpleTimer();
+		//Camera.main.backgroundColor = new Color(240/255f, 230/255f, 221/255f);
+		//_tsb.PlaceSprites();
+		//_timer = new SimpleTimer(15f);
+		//_timer.StartTimer();
 		_fadeOut = false;
 		_fadeIn = false;
 		_houseSpr = null;
@@ -78,6 +97,8 @@ public class GameManager : MonoBehaviour
 		_stairs = new Transform[0];
 		_procdInput = false;
 		_items = new Queue<GameObject>();
+
+		_phase = GamePhase.SetupTitle;
 	}
 	#endregion
 
@@ -86,86 +107,107 @@ public class GameManager : MonoBehaviour
 	{
 		switch(_phase)
 		{
-		case GamePhase.Title:
-			if(_timer.Expired && !_fadeOut)
+		case GamePhase.SetupTitle:
+			if(Application.loadedLevelName != "title" && !Application.isLoadingLevel)
+				Application.LoadLevel("title");
+			else
 			{
-				_fadeOut = true;
-				_timer.SetTimer(2.5f);
+				Camera.main.backgroundColor = new Color(240/255f, 230/255f, 221/255f);
+				_tsb.PlaceSprites();
+				_timer.SetTimer(titleToMenuDelay);
 				_timer.StartTimer();
-			}
-			if(!_timer.Expired && _fadeOut && !_fadeIn)
-			{
-				fadeOut();
-			}
-			if(_timer.Expired && _fadeOut && !_fadeIn)
-			{
-				Debug.Log("Moving to opening");
-				_fadeIn = true;
-				_fadeOut = false;
-				_phase = GamePhase.Opening;
-				((GameObject)GameObject.Find("TitleSprites")).SetActive(false);
-				Application.LoadLevel("house");
-				_timer.SetTimer(2.5f);
-				_timer.StartTimer();
+				_phase = GamePhase.ShowTitle;
 			}
 			break;
-		case GamePhase.Opening:
-			if(Application.loadedLevelName.Equals("house") && !_timer.Expired && _fadeIn && !_fadeOut)
+		case GamePhase.ShowTitle:
+			if(_timer.Expired)
 			{
-				fadeIn();
+				_phase = GamePhase.ShowMenu;
+				_tsb.DropSprites();
 			}
-			if(_timer.Expired && _fadeIn && !_fadeOut)
+			break;
+		case GamePhase.ShowMenu:
+			if(!_gui.ShowMenu)
+				_gui.ShowMenu = true;
+			_timer.SetTimer(100f);
+			_timer.StartTimer();
+			break;
+		case GamePhase.FadeToGame:
+			if(!_timer.Expired)
+				fadeOut();
+			else
 			{
-				_fadeIn = false;
+				if(!Application.isLoadingLevel && Application.loadedLevelName != "house")
+					Application.LoadLevel("house");
+				if(Application.loadedLevelName == "house" && !Application.isLoadingLevel)
+				{
+					_timer.SetTimer(3f);
+					_timer.StartTimer();
+					_tsb.DestroySprites();
+					_phase = GamePhase.ShowOpeningDlog;
+				}
+			}
+			break;
+		case GamePhase.FadeToCredits:
+			break;
+		case GamePhase.ShowOpeningDlog:
+			if(!_timer.Expired)
+				fadeIn ();
+			else
+			{
 				_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
 				//show the breakup
 				_gui.EnqueueText("We're through.");
 				_gui.EnqueueText("I'm leaving");
-			}
-			if(LastDialogue && _timer.Expired)
-			{
-				_timer.SetTimer(5.0f);
+				_timer.SetTimer(2.5f); //length of whole breakup, animation + dlog
 				_timer.StartTimer();
-			}
-			if(LastDialogue && !_timer.Expired)
-			{
-				//Debug.Log("Collecting items");
-				GameObject[] items = GameObject.FindGameObjectsWithTag("item");
-				for(int i=0;i<items.Length;++i)
-					items[i].SetActive(false);
-
-				Debug.Log (items.Length);
-				//Debug.Log("Shuffling items");
-				for(int i=items.Length - 1; i > 0; --i)
-				{
-					int j = UnityEngine.Random.Range(0, i+1);
-					Debug.Log(j);
-					GameObject tmp = items[j];
-					items[j] = items[i];
-					items[i] = tmp;
-				}
-				_items = new Queue<GameObject>(items);
-				//Debug.Log(_items.Count);
-				//reserved for shatter the house
-				_phase = GamePhase.Play;
-				Debug.Log("Playing");
+				_phase = GamePhase.ShatterHouse;
 			}
 			break;
-		case GamePhase.Play:
-			//allow play once shattering is done.
+		case GamePhase.ShatterHouse:
+			if(_timer.Expired)
+			{
+				//animate shattered house
+				_timer.SetTimer(2.5f); //length of animation
+				_timer.StartTimer();
+				_phase = GamePhase.PlaySetup;
+			}
+			break;
+		case GamePhase.PlaySetup:
 			if(_timer.Expired)
 			{
 				if(_player == null)
 					_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 				if(_stairs.Length == 0)
 					_stairs = GameObject.FindGameObjectWithTag("stairs").GetComponentsInChildren<Transform>();
-				if(!_procdInput)
-					_procdInput = ProcessInput();
-				else
-					_procdInput = false;
+				if(_items.Count == 0)
+				{
+					//Debug.Log("Collecting items");
+					GameObject[] items = GameObject.FindGameObjectsWithTag("item");
+					for(int i=0;i<items.Length;++i)
+						items[i].SetActive(false);
+					
+					//Debug.Log("Shuffling items");
+					for(int i=items.Length - 1; i > 0; --i)
+					{
+						int j = UnityEngine.Random.Range(0, i+1);
+						GameObject tmp = items[j];
+						items[j] = items[i];
+						items[i] = tmp;
+					}
+					_items = new Queue<GameObject>(items);
+					_phase = GamePhase.Play;
+				}
 			}
 			break;
-		case GamePhase.Ending:
+		case GamePhase.Play:
+			if(!_procdInput)
+				_procdInput = ProcessInput();
+			else
+				_procdInput = false;
+			break;
+		case GamePhase.PlayEnd:
+			Debug.Log ("Game Over? " + "Score: " + Mathf.Round(PlayerScore).ToString());
 			break;
 		default:
 			break;
@@ -244,23 +286,36 @@ public class GameManager : MonoBehaviour
 			   (_player.LeftX >= pos.x-heapSpr.bounds.extents.x && _player.RightX <= pos.x+heapSpr.bounds.extents.x) &&
 			   _items.Count > 0 && _player.Carrying == null)
 			{
-				Debug.Log("Picking up item");
 				_player.Carrying = _items.Dequeue();
 				_player.Carrying.SetActive(true);
 				_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
 				_player.Carrying.SetActive(false);
-				Debug.Log(_player.Carrying.name);
 
 			}
 			else if(_player.Carrying != null && _player.transform.position.y > -3f)
 			{
-				_player.Score+=(_player.transform.position - _player.CarriedOrigPos).sqrMagnitude;
+				int points = 0;
+				float sqrMag = (_player.transform.position - _player.CarriedOrigPos).sqrMagnitude;
+
+				if(sqrMag < 16f)
+					points = 1;
+				else
+				{
+					if(sqrMag >= 16f)
+						points++;
+					if(sqrMag >= 64f)
+						points++;
+					if(sqrMag >=144f)
+						points++;
+				}
+
+				_player.Score+=points;
 				_player.Carrying.SetActive(true);
 				_player.Carrying.transform.position = _player.transform.position;
 				_player.ClearCarry();
 				_gui.DisplayItem();
 				if(_items.Count == 0)
-					Debug.Log ("Game Over? " + "Score: " + Mathf.Round(_player.Score).ToString());
+					_phase = GamePhase.PlayEnd;
 			}
 
 		}
@@ -271,8 +326,14 @@ public class GameManager : MonoBehaviour
 	#endregion
 	
 	#region properties
-	public GamePhase Phase { get { return _phase; } }
+	public GamePhase Phase
+	{
+		get { return _phase; }
+		set { _phase = value; }
+	}
+
 	public bool LastDialogue { get; set; }
+
 	public SpriteRenderer CurrentItem
 	{
 		get
@@ -282,5 +343,13 @@ public class GameManager : MonoBehaviour
 			return _player.Carrying.GetComponent<SpriteRenderer>();
 		}
 	}
+
+	public SimpleTimer Timer
+	{
+		get { return _timer; }
+		set { _timer = value; }
+	}
+
+	public float PlayerScore { get { return (_player != null) ? _player.Score : 0f; } }
 	#endregion
 }
