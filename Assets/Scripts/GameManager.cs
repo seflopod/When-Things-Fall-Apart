@@ -383,18 +383,34 @@ public class GameManager : MonoBehaviour
 
 				_player.Score+=points;
 				Color oColor = _overlay.color;
-				if(_items.Count <= 15)
+				if(_items.Count <= 14)
 				{
 					_audio.VaryMusic = true; //start to change music after awhile
+					oColor.a -= (1-_player.Score/(40-20*_items.Count));
+					float maxPoints = 12 * Mathf.Floor(2*(20-_items.Count) / 12); //magic numbers!
+					int scoreLevel = Mathf.FloorToInt(3 * _player.Score/maxPoints);
+					if(scoreLevel == 3)
+					{
+						oColor.a = 0.25f;
+					}
+					else if(scoreLevel == 2)
+					{
+						oColor.a = 0.1875f;
+					}
+					else if(scoreLevel == 1)
+					{
+						oColor.a = 0.125f;
+					}
+					else
+						oColor.a = 0.0f;
 
-					oColor.a -= (1-_player.Score/(2*(20-_items.Count)));
 				}
 				else
 				{
 					_audio.VaryMusic = false;
 					oColor.a = 0.25f;
 				}
-
+				_overlay.color = oColor;
 				_player.Carrying.SetActive(true);
 
 				//_stackableObjects = FindGameObjectsWithLayer(9);
