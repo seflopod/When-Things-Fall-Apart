@@ -71,10 +71,10 @@ public class PlayerBehaviour : MonoBehaviour
 		set
 		{
 			_carrying = value;
-			_carrying.transform.parent = transform;
-			_carrying.transform.localPosition = Vector3.zero;
 			_carrying.SetActive(true);
 			CarriedOrigPos = _carrying.transform.position;
+			_carrying.transform.parent = transform;
+			_carrying.transform.localPosition = Vector3.zero;
 			_anim.SetBool("isCarrying", true);
 		}
 	}

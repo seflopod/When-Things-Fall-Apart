@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 	#region fields
 	public float titleToMenuDelay = 3f;
 	public Sprite heapSprite;
+	public bool debugMode = false;
 	//public Sprite afterBreakupGlass;
 	//public Sprite emptyHouse;
 	private GamePhase _phase;
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
 	private bool _shattered;
 	private List<GameObject> _stackableObjects = new List<GameObject>();
 	private TitleSpritesBehaviour _tsb;
+	private GUITexture _overlay;
 	#endregion
 
 	#region monobehaviour
@@ -101,10 +103,18 @@ public class GameManager : MonoBehaviour
 		_stairs = new Transform[0];
 		_procdInput = false;
 		_items = new Queue<GameObject>();
-		
-		_phase = GamePhase.SetupTitle;
+
+		if(!debugMode)
+			_phase = GamePhase.SetupTitle;
+		else
+		{
+			_phase = GamePhase.PlaySetup;
+			Application.LoadLevel("house");
+		}
+
 		_startedLeaving = false;
 		_shattered = false;
+		_overlay = null;
 	}
 	#endregion
 
@@ -205,6 +215,8 @@ public class GameManager : MonoBehaviour
 			if(!Application.isLoadingLevel && Application.loadedLevelName == "house")
 			{
 				_houseSpr = GameObject.FindGameObjectWithTag("houseBG").GetComponent<SpriteRenderer>();
+				_overlay = GameObject.FindGameObjectWithTag("overlay").GetComponent<GUITexture>();
+				_overlay.pixelInset = new Rect(-Screen.width/2f, -Screen.height/2f, Screen.width, Screen.height);
 				if(_player == null)
 					_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 				if(_stairs.Length == 0)
@@ -357,9 +369,6 @@ public class GameManager : MonoBehaviour
 
 				if(_items.Count == 5)
 					heapSpr.sprite = heapSprite;
-				//_player.Carrying.SetActive(true);
-				//_gui.DisplayItem(_player.Carrying.GetComponent<SpriteRenderer>());
-				//_player.Carrying.SetActive(false);
 
 			}
 			else if(_player.Carrying != null && _player.transform.position.y > -3f)
@@ -373,7 +382,18 @@ public class GameManager : MonoBehaviour
 					points--;
 
 				_player.Score+=points;
-				_audio.VaryMusic = (_items.Count <= 15); //start to change music after awhile
+				Color oColor = _overlay.color;
+				if(_items.Count <= 15)
+				{
+					_audio.VaryMusic = true; //start to change music after awhile
+
+					oColor.a -= (1-_player.Score/(2*(20-_items.Count)));
+				}
+				else
+				{
+					_audio.VaryMusic = false;
+					oColor.a = 0.25f;
+				}
 
 				_player.Carrying.SetActive(true);
 
