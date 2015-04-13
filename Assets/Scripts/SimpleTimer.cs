@@ -4,9 +4,9 @@ using UnityEngine;
 /// Simple timer.
 /// </summary>
 /// <description>
-/// <para>This class is used in place of constantly recreating variables for timing.  This should
-/// not be confused with the .NET class Timer, which is used to execute methods after a certain
-/// amount of time has passed.
+/// <para>This class is used in place of constantly recreating variables for
+/// timing.  This should not be confused with the .NET class Timer, which is
+/// used to execute methods after a certain amount of time has passed.
 /// </para>
 /// </description>
 public class SimpleTimer
@@ -18,7 +18,8 @@ public class SimpleTimer
 
 	#region ctors
 	/// <summary>
-	/// Initializes a new instance of the <see cref="SimpleTimer"/> class with a length of 0.
+	/// Initializes a new instance of the <see cref="SimpleTimer"/> class with a
+	/// length of 0.
 	/// </summary>
 	public SimpleTimer()
 	{
@@ -65,8 +66,7 @@ public class SimpleTimer
 	/// <value>
 	/// The time remaining.
 	/// </value>
-	public float TimeRemaining
-	{
+	public float TimeRemaining {
 		get { return _timerLength - Time.time + _startTime; }
 	}
 	
@@ -76,19 +76,18 @@ public class SimpleTimer
 	/// <value>
 	/// The timer length.
 	/// </value>
-	public float Length
-	{
+	public float Length {
 		get { return _timerLength; }
 	}
 	
 	/// <summary>
-	/// Gets a value indicating whether this <see cref="SimpleTimer"/> is expired.
+	/// Gets a value indicating whether this <see cref="SimpleTimer"/> is
+	/// expired.
 	/// </summary>
 	/// <value>
 	/// <c>true</c> if expired; otherwise, <c>false</c>.
 	/// </value>
-	public bool Expired
-	{
+	public bool Expired {
 		get { return (Time.time - _startTime >= _timerLength); }
 	}
 	#endregion

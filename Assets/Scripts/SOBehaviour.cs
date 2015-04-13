@@ -26,7 +26,10 @@ public class SOBehaviour : MonoBehaviour
 			_anim.SetBool("gone", true);
 
 			//the significant other makes the player cry
-			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>().AnimController.SetTrigger("startCrying");
+			GameObject.FindGameObjectWithTag("Player").
+												GetComponent<PlayerBehaviour>().
+													AnimController.
+													SetTrigger("startCrying");
 		}
 	}
 
@@ -45,8 +48,7 @@ public class SOBehaviour : MonoBehaviour
 		_timerSet = true;
 	}
 
-	public Animator AnimController
-	{
+	public Animator AnimController {
 		get { return _anim; }
 		set { _anim = value; }
 	}

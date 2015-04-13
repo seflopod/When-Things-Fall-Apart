@@ -1,6 +1,37 @@
 fileFormatVersion: 2
 guid: 15bf32374830d4f408a2c91ada89cb7a
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: player_walk01
+    21300002: player_walk02
+    21300004: player_walk03
+    21300006: player_walk04
+    21300008: player_walk05
+    21300010: player_walk06
+    21300012: player_walk07
+    21300014: player_walk08
+    21300016: player_carry01
+    21300018: player_carry02
+    21300020: player_carry03
+    21300022: player_carry04
+    21300024: player_carry05
+    21300026: player_carry06
+    21300028: player_carry07
+    21300030: player_carry08
+    21300032: player_dance01
+    21300034: player_dance02
+    21300036: player_dance03
+    21300038: player_dance04
+    21300040: player_dance05
+    21300042: player_dance06
+    21300044: player_cry01
+    21300046: player_cry02
+    21300048: player_cry03
+    21300050: player_cry04
+    21300052: player_cry05
+    21300054: player_cry06
+    21300056: player_cry07
+    21300058: player_blank
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
@@ -54,6 +86,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_walk02
       rect:
         serializedVersion: 2
@@ -63,6 +96,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_walk03
       rect:
         serializedVersion: 2
@@ -72,6 +106,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_walk04
       rect:
         serializedVersion: 2
@@ -81,6 +116,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_walk05
       rect:
         serializedVersion: 2
@@ -90,6 +126,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_walk06
       rect:
         serializedVersion: 2
@@ -99,6 +136,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_walk07
       rect:
         serializedVersion: 2
@@ -108,6 +146,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_walk08
       rect:
         serializedVersion: 2
@@ -117,6 +156,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry01
       rect:
         serializedVersion: 2
@@ -126,6 +166,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry02
       rect:
         serializedVersion: 2
@@ -135,6 +176,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry03
       rect:
         serializedVersion: 2
@@ -144,6 +186,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry04
       rect:
         serializedVersion: 2
@@ -153,6 +196,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry05
       rect:
         serializedVersion: 2
@@ -162,6 +206,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry06
       rect:
         serializedVersion: 2
@@ -171,6 +216,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry07
       rect:
         serializedVersion: 2
@@ -180,6 +226,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_carry08
       rect:
         serializedVersion: 2
@@ -189,6 +236,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_dance01
       rect:
         serializedVersion: 2
@@ -198,6 +246,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_dance02
       rect:
         serializedVersion: 2
@@ -207,6 +256,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_dance03
       rect:
         serializedVersion: 2
@@ -216,6 +266,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_dance04
       rect:
         serializedVersion: 2
@@ -225,6 +276,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_dance05
       rect:
         serializedVersion: 2
@@ -234,6 +286,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_dance06
       rect:
         serializedVersion: 2
@@ -243,6 +296,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_cry01
       rect:
         serializedVersion: 2
@@ -252,6 +306,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_cry02
       rect:
         serializedVersion: 2
@@ -261,6 +316,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_cry03
       rect:
         serializedVersion: 2
@@ -270,6 +326,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_cry04
       rect:
         serializedVersion: 2
@@ -279,6 +336,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_cry05
       rect:
         serializedVersion: 2
@@ -288,6 +346,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_cry06
       rect:
         serializedVersion: 2
@@ -297,6 +356,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_cry07
       rect:
         serializedVersion: 2
@@ -306,6 +366,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: player_blank
       rect:
         serializedVersion: 2
@@ -315,5 +376,6 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

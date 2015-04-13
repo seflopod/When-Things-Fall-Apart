@@ -21,7 +21,6 @@ public class AudioPlay : MonoBehaviour
 	public AudioClip endCryMusic;
 	//MUSIC FOR END DANCING SCENE
 	public AudioClip endDanceMusic;
-	
 	private bool _playingEndMusic;
 	
 	private void Start()
@@ -30,7 +29,7 @@ public class AudioPlay : MonoBehaviour
 		_playingEndMusic = false;
 	}
 	
-	private void Update ()
+	private void Update()
 	{
 		if(Application.loadedLevelName == "end_cry" && !_playingEndMusic)
 		{
@@ -52,87 +51,96 @@ public class AudioPlay : MonoBehaviour
 		{
 			if(GameManager.Instance.PlayerScore >= 28 || !VaryMusic)
 			{
-				audioGameObjects[0].audio.mute=false;
-				audioGameObjects[1].audio.mute=false;
-				audioGameObjects[2].audio.mute=false;
-				audioGameObjects[3].audio.mute=true;
-				audioGameObjects[4].audio.mute=true;
-				audioGameObjects[5].audio.mute=true;
-				audioGameObjects[6].audio.mute=true;
-				audioGameObjects[7].audio.mute=true;
-				audioGameObjects[8].audio.mute=true;
+				audioGameObjects[0].audio.mute = false;
+				audioGameObjects[1].audio.mute = false;
+				audioGameObjects[2].audio.mute = false;
+				audioGameObjects[3].audio.mute = true;
+				audioGameObjects[4].audio.mute = true;
+				audioGameObjects[5].audio.mute = true;
+				audioGameObjects[6].audio.mute = true;
+				audioGameObjects[7].audio.mute = true;
+				audioGameObjects[8].audio.mute = true;
 				
 			}
 			else if(GameManager.Instance.PlayerScore >= 8)
 			{
-				audioGameObjects[0].audio.mute=true;
-				audioGameObjects[1].audio.mute=true;
-				audioGameObjects[2].audio.mute=true;
-				audioGameObjects[3].audio.mute=false;
-				audioGameObjects[4].audio.mute=false;
-				audioGameObjects[5].audio.mute=false;
-				audioGameObjects[6].audio.mute=true;
-				audioGameObjects[7].audio.mute=true;
-				audioGameObjects[8].audio.mute=true;
+				audioGameObjects[0].audio.mute = true;
+				audioGameObjects[1].audio.mute = true;
+				audioGameObjects[2].audio.mute = true;
+				audioGameObjects[3].audio.mute = false;
+				audioGameObjects[4].audio.mute = false;
+				audioGameObjects[5].audio.mute = false;
+				audioGameObjects[6].audio.mute = true;
+				audioGameObjects[7].audio.mute = true;
+				audioGameObjects[8].audio.mute = true;
 			}
 			else
 			{
-				audioGameObjects[0].audio.mute=true;
-				audioGameObjects[1].audio.mute=true;
-				audioGameObjects[2].audio.mute=true;
-				audioGameObjects[3].audio.mute=true;
-				audioGameObjects[4].audio.mute=true;
-				audioGameObjects[5].audio.mute=true;
-				audioGameObjects[6].audio.mute=false;
-				audioGameObjects[7].audio.mute=false;
-				audioGameObjects[8].audio.mute=false;
+				audioGameObjects[0].audio.mute = true;
+				audioGameObjects[1].audio.mute = true;
+				audioGameObjects[2].audio.mute = true;
+				audioGameObjects[3].audio.mute = true;
+				audioGameObjects[4].audio.mute = true;
+				audioGameObjects[5].audio.mute = true;
+				audioGameObjects[6].audio.mute = false;
+				audioGameObjects[7].audio.mute = false;
+				audioGameObjects[8].audio.mute = false;
 			}
 			
-			if(audioGameObjects[0].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[0].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[0].audio.clip = audioClipsA_S1[rand];
 				audioGameObjects[0].audio.Play();
 			}
-			if(audioGameObjects[1].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[1].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[1].audio.clip = audioClipsB_S1[rand];
 				audioGameObjects[1].audio.Play();
 			}
-			if(audioGameObjects[2].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[2].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[2].audio.clip = audioClipsC_S1[rand];
 				audioGameObjects[2].audio.Play();
 			}
 			
 			
-			if(audioGameObjects[3].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[3].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[3].audio.clip = audioClipsA_S2[rand];
 				audioGameObjects[3].audio.Play();
 			}
-			if(audioGameObjects[4].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[4].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[4].audio.clip = audioClipsB_S2[rand];
 				audioGameObjects[4].audio.Play();
 			}
-			if(audioGameObjects[5].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[5].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[5].audio.clip = audioClipsC_S2[rand];
 				audioGameObjects[5].audio.Play();
 			}
 			
-			if(audioGameObjects[6].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[6].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[6].audio.clip = audioClipsA_S3[rand];
 				audioGameObjects[6].audio.Play();
 			}
-			if(audioGameObjects[7].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[7].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[7].audio.clip = audioClipsB_S3[rand];
 				audioGameObjects[7].audio.Play();
 			}
-			if(audioGameObjects[8].audio.isPlaying==false){
-				int rand = Random.Range(0,2);
+			if(audioGameObjects[8].audio.isPlaying == false)
+			{
+				int rand = Random.Range(0, 2);
 				audioGameObjects[8].audio.clip = audioClipsC_S3[rand];
 				audioGameObjects[8].audio.Play();
 			}
@@ -145,19 +153,21 @@ public class AudioPlay : MonoBehaviour
 		_playingEndMusic = false;
 	}
 
-	public void stopEverything(){
-		Debug.Log ("stopping everything");
-		audioGameObjects[0].audio.mute=true;
-		audioGameObjects[1].audio.mute=true;
-		audioGameObjects[2].audio.mute=true;
-		audioGameObjects[3].audio.mute=true;
-		audioGameObjects[4].audio.mute=true;
-		audioGameObjects[5].audio.mute=true;
-		audioGameObjects[6].audio.mute=true;
-		audioGameObjects[7].audio.mute=true;
-		audioGameObjects[8].audio.mute=true;
+	public void stopEverything()
+	{
+		audioGameObjects[0].audio.mute = true;
+		audioGameObjects[1].audio.mute = true;
+		audioGameObjects[2].audio.mute = true;
+		audioGameObjects[3].audio.mute = true;
+		audioGameObjects[4].audio.mute = true;
+		audioGameObjects[5].audio.mute = true;
+		audioGameObjects[6].audio.mute = true;
+		audioGameObjects[7].audio.mute = true;
+		audioGameObjects[8].audio.mute = true;
 		if(audio.isPlaying)
+		{
 			audio.Stop();
+		}
 	}
 	
 	public bool VaryMusic { get; set; }

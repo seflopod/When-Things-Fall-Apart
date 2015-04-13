@@ -1,6 +1,29 @@
 fileFormatVersion: 2
 guid: 3c28f98ad73796746a27efe0a0998013
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: title_e02
+    21300002: title_t01
+    21300004: title_s01
+    21300006: title_w01
+    21300008: title_h01
+    21300010: title_e01
+    21300012: title_l01
+    21300014: title_h02
+    21300016: title_w02
+    21300018: title_p01
+    21300020: title_r01
+    21300022: title_n01
+    21300024: title_d01
+    21300026: title_f01
+    21300028: title_a01
+    21300030: title_l02
+    21300032: title_a02
+    21300034: title_o01
+    21300036: title_l03
+    21300038: title_r02
+    21300040: title_a03
+    21300042: title_t02
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
@@ -50,6 +74,7 @@ TextureImporter:
         height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_t01
       rect:
         serializedVersion: 2
@@ -59,6 +84,7 @@ TextureImporter:
         height: 78
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_s01
       rect:
         serializedVersion: 2
@@ -68,6 +94,7 @@ TextureImporter:
         height: 73
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_w01
       rect:
         serializedVersion: 2
@@ -77,6 +104,7 @@ TextureImporter:
         height: 83
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_h01
       rect:
         serializedVersion: 2
@@ -86,6 +114,7 @@ TextureImporter:
         height: 71
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_e01
       rect:
         serializedVersion: 2
@@ -95,6 +124,7 @@ TextureImporter:
         height: 72
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_l01
       rect:
         serializedVersion: 2
@@ -104,6 +134,7 @@ TextureImporter:
         height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_h02
       rect:
         serializedVersion: 2
@@ -113,6 +144,7 @@ TextureImporter:
         height: 67
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_w02
       rect:
         serializedVersion: 2
@@ -122,6 +154,7 @@ TextureImporter:
         height: 79
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_p01
       rect:
         serializedVersion: 2
@@ -131,6 +164,7 @@ TextureImporter:
         height: 70
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_r01
       rect:
         serializedVersion: 2
@@ -140,6 +174,7 @@ TextureImporter:
         height: 71
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_n01
       rect:
         serializedVersion: 2
@@ -149,6 +184,7 @@ TextureImporter:
         height: 71
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_d01
       rect:
         serializedVersion: 2
@@ -158,6 +194,7 @@ TextureImporter:
         height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_f01
       rect:
         serializedVersion: 2
@@ -167,6 +204,7 @@ TextureImporter:
         height: 80
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_a01
       rect:
         serializedVersion: 2
@@ -176,6 +214,7 @@ TextureImporter:
         height: 72
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_l02
       rect:
         serializedVersion: 2
@@ -185,6 +224,7 @@ TextureImporter:
         height: 72
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_a02
       rect:
         serializedVersion: 2
@@ -194,6 +234,7 @@ TextureImporter:
         height: 77
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_o01
       rect:
         serializedVersion: 2
@@ -203,6 +244,7 @@ TextureImporter:
         height: 70
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_l03
       rect:
         serializedVersion: 2
@@ -212,6 +254,7 @@ TextureImporter:
         height: 72
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_r02
       rect:
         serializedVersion: 2
@@ -221,6 +264,7 @@ TextureImporter:
         height: 68
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_a03
       rect:
         serializedVersion: 2
@@ -230,6 +274,7 @@ TextureImporter:
         height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: title_t02
       rect:
         serializedVersion: 2
@@ -239,5 +284,6 @@ TextureImporter:
         height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

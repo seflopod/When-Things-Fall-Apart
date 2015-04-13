@@ -1,6 +1,37 @@
 fileFormatVersion: 2
 guid: 665a7d03e8edb5e4d93e5fe8c593d17c
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: so_walk01
+    21300002: so_walk02
+    21300004: so_walk03
+    21300006: so_walk04
+    21300008: so_walk05
+    21300010: so_walk06
+    21300012: so_walk07
+    21300014: so_walk08
+    21300016: so_carry01
+    21300018: so_carry02
+    21300020: so_carry03
+    21300022: so_carry04
+    21300024: so_carry05
+    21300026: so_carry06
+    21300028: so_carry07
+    21300030: so_carry08
+    21300032: so_dance01
+    21300034: so_dance02
+    21300036: so_dance03
+    21300038: so_dance04
+    21300040: so_dance05
+    21300042: so_dance06
+    21300044: so_cry01
+    21300046: so_cry02
+    21300048: so_cry03
+    21300050: so_cry04
+    21300052: so_cry05
+    21300054: so_cry06
+    21300056: so_cry07
+    21300058: so_blank
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
@@ -54,6 +86,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_walk02
       rect:
         serializedVersion: 2
@@ -63,6 +96,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_walk03
       rect:
         serializedVersion: 2
@@ -72,6 +106,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_walk04
       rect:
         serializedVersion: 2
@@ -81,6 +116,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_walk05
       rect:
         serializedVersion: 2
@@ -90,6 +126,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_walk06
       rect:
         serializedVersion: 2
@@ -99,6 +136,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_walk07
       rect:
         serializedVersion: 2
@@ -108,6 +146,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_walk08
       rect:
         serializedVersion: 2
@@ -117,6 +156,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry01
       rect:
         serializedVersion: 2
@@ -126,6 +166,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry02
       rect:
         serializedVersion: 2
@@ -135,6 +176,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry03
       rect:
         serializedVersion: 2
@@ -144,6 +186,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry04
       rect:
         serializedVersion: 2
@@ -153,6 +196,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry05
       rect:
         serializedVersion: 2
@@ -162,6 +206,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry06
       rect:
         serializedVersion: 2
@@ -171,6 +216,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry07
       rect:
         serializedVersion: 2
@@ -180,6 +226,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_carry08
       rect:
         serializedVersion: 2
@@ -189,6 +236,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_dance01
       rect:
         serializedVersion: 2
@@ -198,6 +246,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_dance02
       rect:
         serializedVersion: 2
@@ -207,6 +256,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_dance03
       rect:
         serializedVersion: 2
@@ -216,6 +266,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_dance04
       rect:
         serializedVersion: 2
@@ -225,6 +276,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_dance05
       rect:
         serializedVersion: 2
@@ -234,6 +286,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_dance06
       rect:
         serializedVersion: 2
@@ -243,6 +296,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_cry01
       rect:
         serializedVersion: 2
@@ -252,6 +306,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_cry02
       rect:
         serializedVersion: 2
@@ -261,6 +316,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_cry03
       rect:
         serializedVersion: 2
@@ -270,6 +326,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_cry04
       rect:
         serializedVersion: 2
@@ -279,6 +336,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_cry05
       rect:
         serializedVersion: 2
@@ -288,6 +346,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_cry06
       rect:
         serializedVersion: 2
@@ -297,6 +356,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_cry07
       rect:
         serializedVersion: 2
@@ -306,6 +366,7 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: so_blank
       rect:
         serializedVersion: 2
@@ -315,5 +376,6 @@ TextureImporter:
         height: 120
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

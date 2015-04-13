@@ -5,7 +5,7 @@ public class CryBehaviour : MonoBehaviour
 {
 	private Animator _anim;
 
-	private void Start ()
+	private void Start()
 	{
 		_anim = gameObject.GetComponent<Animator>();
 		//_anim.Play("player_idle");

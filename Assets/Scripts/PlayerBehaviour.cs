@@ -27,15 +27,16 @@ public class PlayerBehaviour : MonoBehaviour
 
 	#region monobehaviour
 	// Use this for initialization
-	private void Start ()
+	private void Start()
 	{
 		_spr = gameObject.GetComponent<SpriteRenderer>();
 		_anim = gameObject.GetComponent<Animator>();
 		_anim.Play("player_idle");
+		Score = 0;
 	}
 	
 	// Update is called once per frame
-	private void Update ()
+	private void Update()
 	{
 	
 	}
@@ -61,12 +62,35 @@ public class PlayerBehaviour : MonoBehaviour
 	#endregion
 
 	#region properities
-	public float LeftX { get { return transform.position.x - _spr.sprite.rect.width/200; } }
-	public float RightX { get { return transform.position.x + _spr.sprite.rect.width/200; } }
-	public float BottomY { get { return transform.position.y - _spr.sprite.rect.height/200; } }
-	public float TopY { get { return transform.position.y + _spr.sprite.rect.height/200; } }
-	public GameObject Carrying
-	{
+	public float LeftX {
+		get
+		{
+			return transform.position.x - _spr.sprite.rect.width / 200;
+		}
+	}
+
+	public float RightX {
+		get
+		{
+			return transform.position.x + _spr.sprite.rect.width / 200;
+		}
+	}
+
+	public float BottomY {
+		get
+		{
+			return transform.position.y - _spr.sprite.rect.height / 200;
+		}
+	}
+
+	public float TopY {
+		get
+		{
+			return transform.position.y + _spr.sprite.rect.height / 200;
+		}
+	}
+
+	public GameObject Carrying {
 		get { return _carrying; }
 		set
 		{
@@ -78,10 +102,12 @@ public class PlayerBehaviour : MonoBehaviour
 			_anim.SetBool("isCarrying", true);
 		}
 	}
+
 	public Vector3 CarriedOrigPos { get; private set; }
+
 	public float Score { get; set; }
-	public Animator AnimController
-	{
+
+	public Animator AnimController {
 		get { return _anim; }
 		set { _anim = value; }
 	}
