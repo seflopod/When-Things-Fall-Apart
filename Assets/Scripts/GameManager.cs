@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
 			break;
 		case GamePhase.Play:
 			processInput();
-			if(_items.Count == 0 && _player.Carrying)
+			if(_items.Count == 0 && _player.Carrying == null)
 			{
 				_phase = GamePhase.PlayEnd;
 				_stackableObjects.Clear();
